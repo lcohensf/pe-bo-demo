@@ -1,0 +1,65 @@
+<aura:component controller="HistoricalOrderFulfillmentsCtrlr"  implements="flexipage:availableForAllPageTypes,force:hasRecordId" access="global" >
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="historialFulfillmentRecords" type="Order_Fulfillment_BO__b[]"/>
+    
+    <article class="slds-card">
+
+        
+        
+        
+                <!-- Header -->
+        <div class="slds-p-around--x-small slds-border--bottom slds-theme--shade">
+            <div class="slds-grid slds-grid--align-spread slds-grid--vertical-align-center">
+                <div> <span class="slds-text-heading_small">Order Status Notifications</span>
+                </div>
+                <div>
+                    <lightning:buttonIcon onclick="{!c.onRefresh}" iconName="utility:refresh" title="Refresh List"
+                                          alternativeText="Refresh List" variant="border-filled"/>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="slds-card__body">
+            <ui:scrollerWrapper >
+            <table class="slds-table slds-table--bordered slds-no-row-hover slds-table--cell-buffer">
+                <thead>
+                    <tr class="slds-text-heading--label">
+                        <th scope="col">
+                            <div class="slds-truncate" title="Date">DATE</div>
+                        </th>
+                     <!--   <th scope="col">
+                            <div class="slds-truncate" title="Time">TIME</div>
+                        </th> -->
+                        <th scope="col">
+                            <div class="slds-truncate" title="Status">STATUS</div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate" title="TransactionID">TRANSACTION ID</div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate" title="Source">SOURCE</div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate" title="Description">DESCRIPTION</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <aura:iteration var="hOF" items="{!v.historialFulfillmentRecords}">
+                        <tr class="slds-hint-parent">
+                            <td><ui:outputDate aura:id="oDate" value="{!hOF.TransactionTimestamp__c}" format="yyyy-MM-d" /> </td>
+                            <!-- <td><ui:outputDateTime aura:id="oDate" value="{!hOF.TransactionTimestamp__c}" format="h:mm a" /> </td> -->
+                            <td><div class="slds-truncate" title="Status">{!hOF.TransactionType__c}</div></td>
+                        	<td><div class="slds-truncate" title="TransactionID">{!hOF.TransactionID__c}</div></td>
+                            <td><div class="slds-truncate" title="Source">{!hOF.SourceSystem__c}</div></td>
+                            <td><div class="slds-truncate" title="Description">{!hOF.Description__c}</div></td>                       
+                        </tr>
+                    </aura:iteration>
+                </tbody>
+            </table>
+            </ui:scrollerWrapper>
+        </div>
+    </article>	
+</aura:component>

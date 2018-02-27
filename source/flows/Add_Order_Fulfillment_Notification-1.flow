@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <choices>
+        <name>Order_In_Process</name>
+        <choiceText>Order In Process</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Order In Process</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Order_Received</name>
+        <choiceText>Order Received</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Order Received</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Order_Shipped</name>
+        <choiceText>Order Shipped</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Order Shipped</stringValue>
+        </value>
+    </choices>
+    <constants>
+        <name>FlowSourceName</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Manual</stringValue>
+        </value>
+    </constants>
+    <interviewLabel>Add Order Fulfillment Notification {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Add Order Fulfillment Notification</label>
+    <processType>Flow</processType>
+    <recordCreates>
+        <name>Create_Order_Fulfillment_Event</name>
+        <label>Create Order Fulfillment Event</label>
+        <locationX>136</locationX>
+        <locationY>283</locationY>
+        <inputAssignments>
+            <field>Description__c</field>
+            <value>
+                <elementReference>Description</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>SF_Order_ID__c</field>
+            <value>
+                <elementReference>Salesforce_Order_ID</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Source_System__c</field>
+            <value>
+                <elementReference>FlowSourceName</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Transaction_ID__c</field>
+            <value>
+                <elementReference>Transaction_ID</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Transaction_Timestamp__c</field>
+            <value>
+                <elementReference>Transaction_Timestamp</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Transaction_Type__c</field>
+            <value>
+                <elementReference>Transaction_Type</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Order_Fulfillment_Event__e</object>
+    </recordCreates>
+    <screens>
+        <name>Manual_Order_Fulfillment_Event</name>
+        <label>Manual Order Fulfillment Event</label>
+        <locationX>130</locationX>
+        <locationY>114</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Create_Order_Fulfillment_Event</targetReference>
+        </connector>
+        <fields>
+            <name>Salesforce_Order_ID</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>SFOrderID</elementReference>
+            </defaultValue>
+            <fieldText>Salesforce Order ID</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Transaction_ID</name>
+            <dataType>String</dataType>
+            <fieldText>Transaction ID (external ID)</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Transaction_Timestamp</name>
+            <dataType>Date</dataType>
+            <fieldText>Transaction Date</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Transaction_Type</name>
+            <choiceReferences>Order_In_Process</choiceReferences>
+            <choiceReferences>Order_Received</choiceReferences>
+            <choiceReferences>Order_Shipped</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Transaction Type</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Description</name>
+            <fieldText>Description</fieldText>
+            <fieldType>LargeTextArea</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+    </screens>
+    <startElementReference>Manual_Order_Fulfillment_Event</startElementReference>
+    <variables>
+        <name>SFOrderID</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>
